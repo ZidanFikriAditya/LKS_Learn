@@ -1,6 +1,27 @@
 window.addEventListener('load', function () {
     const map = document.getElementById('map')
     const ctx = map.getContext('2d')
+    const pause = this.document.getElementById('pause')
+
+    var animationFrame;
+    var conditionAnimationFrame = false
+
+    pause.onclick = () => {
+        cancelAnimationFrame(animationFrame)
+    }
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key === ' ') {
+            if(conditionAnimationFrame){
+                animationFrame = requestAnimationFrame(animate)
+                conditionAnimationFrame = false
+            }
+        }
+        if (e.key === 'Escape') {
+            cancelAnimationFrame(animationFrame)
+            conditionAnimationFrame = true
+        }
+    })
 
     map.width = 600
     map.height = 960
@@ -13,6 +34,7 @@ window.addEventListener('load', function () {
                 if ((e.key === 'd' || e.key === 'f' || e.key === 'j' || e.key === 'k') && this.game.keys.indexOf(e.key) === -1) {
                     this.game.keys.push(e.key)
                 }
+                console.log(this.game.keys);
             })
 
             window.addEventListener('keyup', e => {
@@ -20,6 +42,23 @@ window.addEventListener('load', function () {
                     this.game.keys.splice(e.key, 1)
                 }
             })
+        }
+    }
+
+    class Score {
+        constructor(game){
+            this.game = game
+            this.score = 0
+            this.highScore = localStorage.getItem('highScore') ?? 0
+        }
+
+        ScorePlus(){
+            this.score += 50
+            console.log(this.score);
+
+            if (this.score > parseInt(localStorage.getItem('highScore') ?? '0')) {
+                localStorage.setItem('highScore', this.score)
+            }
         }
     }
 
@@ -45,75 +84,125 @@ window.addEventListener('load', function () {
             this.timeSpawn = 0
             this.speedTime = 50
             this.randSpawn = 0
+            this.lose = false
         }
 
         update() {
             this.timeSpawn += this.speedTime
-            this.y += this.speedY
-            this.y2 += this.speedY
-            this.y3 += this.speedY
-            this.y4 += this.speedY
 
+            
+            // Controll Vaccine
+            if (this.game.keys.includes('d') && (this.y >= this.game.height - 500 && this.y <= this.game.height - 200)) {
+                this.game.score.ScorePlus()
+                this.y = -150
+                this.condition1 = false
+            } 
+             if (this.game.keys.includes('f') && (this.y2 >= this.game.height - 500 && this.y2 <= this.game.height - 200)){
+                this.game.score.ScorePlus()
+                this.y2 = -150
+                this.condition2 = false
+            } 
+             if (this.game.keys.includes('j') && (this.y3 >= this.game.height - 500 && this.y3 <= this.game.height - 200)) {
+                this.game.score.ScorePlus()
+                this.y3 = -150
+                this.condition3 = false
+            } 
+             if (this.game.keys.includes('k') && (this.y4 >= this.game.height - 500 && this.y4 <= this.game.height - 200)) {
+                this.game.score.ScorePlus()
+                this.y4 = -150
+                this.condition4 = false
+            }
 
-            if (this.condition1 && this.y === -150) {
-                console.log("y " + this.y);
-                if (this.y >= this.game.height - 200) {
-                    this.y = -150
-                }
-            } else if(this.condition2  && this.y2 === -150) {
-                console.log("y2 " + this.y2);
-                if (this.y2 >= this.game.height - 200) {
-                    this.y2 = -150
-                }
-            } else if(this.condition3 && this.y3 === -150) {
-                console.log("y3 " + this.y3);
+            // Condition Lose
+            if (this.y > this.game.height - 190) {
+                this.lose = true
+            } else if (this.y2 > this.game.height - 190) {
+                this.lose = true
+            } else if (this.y3 > this.game.height - 190) {
+                this.lose = true
+                
+            } else if (this.y4 > this.game.height - 190) {
+                this.lose = true
+                
+            }
 
-                if (this.y3 >= this.game.height - 200) {
-                    this.y3 = -150
-                }
-            } else if(this.condition4 && this.y4 === -150) {
-                console.log("y4 " + this.y4);
-                if (this.y4 >= this.game.height - 200) {
-                    this.y4 = -150
-                }
+            if (this.lose) {
+                cancelAnimationFrame(animationFrame)
+                alert('Game Over')
+                cancelAnimationFrame(animationFrame)
+                this.y = -150
+                this.y2 = -150
+                this.y3 = -150
+                this.y4 = -150
+                window.location.reload()
+                this.lose = false
             }
 
 
             if (this.timeSpawn >= this.timeSpawnMax) {
                 this.timeSpawn = 0
-                this.randSpawn = Math.floor(Math.random() * 450)
+                this.randSpawn = Math.floor(Math.random() * 600)
 
-                if (this.randSpawn >= 0 && this.randSpawn < 150) {
+                if ((this.randSpawn >= 0 && this.randSpawn < 150) && this.y === -150) {
                     this.condition1 = true   
                 }            
-                else if (this.randSpawn >= 150 && this.randSpawn < 300) {
+                else if ((this.randSpawn >= 150 && this.randSpawn < 300) && this.y2 === -150) {
                     this.condition2 = true
                 }            
-                else if (this.randSpawn >= 300 && this.randSpawn < 450) {
+                else if ((this.randSpawn >= 300 && this.randSpawn < 450) && this.y3 === -150) {
                     this.condition3 = true
                 }            
-                else {
+                else if ((this.randSpawn > 450 && this.y4 === -150)) {
                     this.condition4 = true
                 } 
+            }
+
+            if (this.condition1 ) {
+                this.y += this.speedY
+                if (this.y >= this.game.height - 100) {
+                    this.y = -150
+                    this.condition1 = false
+                }
+            }
+            if(this.condition2) {
+                this.y2 += this.speedY
+                if (this.y2 >= this.game.height - 100) {
+                    this.y2 = -150
+                    this.condition2 = false
+                }
+            } 
+            if(this.condition3) {
+                this.y3 += this.speedY
+                if (this.y3 >= this.game.height - 100) {
+                    this.y3 = -150
+                    this.condition3 = false
+                }
+            } 
+            if(this.condition4) {
+                this.y4 += this.speedY
+                if (this.y4 >= this.game.height - 100) {
+                    this.y4 = -150
+                    this.condition4 = false
+                }
             }
 
             
         }
 
         draw (context) {
-            if (this.randSpawn >= 0 && this.randSpawn < 150) {
+            if (this.condition1) {
                 context.fillStyle = 'pink'
                 context.fillRect(this.x, this.y, this.width, this.height)           
             }            
-            else if (this.randSpawn >= 150 && this.randSpawn < 300) {
+            if (this.condition2) {
                 context.fillStyle = 'pink'
                 context.fillRect(this.x2, this.y2, this.width, this.height)
             }            
-            else if (this.randSpawn >= 300 && this.randSpawn < 450) {
+            if (this.condition3) {
                 context.fillStyle = 'pink'
                 context.fillRect(this.x3, this.y3, this.width, this.height)
             }            
-            else {
+            if(this.condition4) {
                 context.fillStyle = 'pink'
                 context.fillRect(this.x4, this.y4, this.width, this.height)
             }   
@@ -174,6 +263,7 @@ window.addEventListener('load', function () {
             this.virus = new Virus(this)
             this.arena = new Arena(this)
             this.input = new InputHendler(this)
+            this.score = new Score(this)
             this.keys = []
         }
 
@@ -193,7 +283,7 @@ window.addEventListener('load', function () {
         ctx.clearRect(0,0,map.width, map.height)
         game.draw(ctx)
         game.update()
-        requestAnimationFrame(animate)
+        animationFrame = requestAnimationFrame(animate)
     }
 
     animate()
