@@ -1,10 +1,24 @@
 window.addEventListener('load', function () {
     const map = document.getElementById('map')
     const ctx = map.getContext('2d')
-    const pause = this.document.getElementById('pause')
+    const pause = document.getElementById('pause')
+    const gameFunc = document.getElementById('game')
+
+    const home = document.getElementById('home')
+    const stratGame = document.getElementById('startGame')
+    const homeHighScore = document.getElementById('homeHighScore')
+    const modalHTP = document.getElementById('modalHowToPlay')
 
     var animationFrame;
     var conditionAnimationFrame = false
+
+    homeHighScore.innerHTML = this.localStorage.getItem('highScore')
+
+    stratGame.onclick = () => {
+        home.style.display = 'none'
+        gameFunc.style.display = 'block'
+        animate()
+    }
 
     pause.onclick = () => {
         cancelAnimationFrame(animationFrame)
@@ -286,5 +300,7 @@ window.addEventListener('load', function () {
         animationFrame = requestAnimationFrame(animate)
     }
 
-    animate()
+    gameFunc.style.display = 'none'
+
+    
 })
