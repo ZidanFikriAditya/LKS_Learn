@@ -1,0 +1,92 @@
+*, html  {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background-color: rgb(33, 33, 33);
+}
+
+.bubble {
+    background-color: rgba(128, 0, 128, 0.21);
+    position: absolute;
+    top: 10%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+    padding: 4rem;
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+    border-radius: 50%;
+}
+.bubble2 {
+    background-color: rgba(135, 206, 235, 0.11);
+    position: absolute;
+    top: 70%;
+    right: 15%;
+    transform: translate(50%, -50%);
+    padding: 6rem;
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+    border-radius: 50%;
+}
+
+#home {
+    background-color: #171717;
+    padding: 1.5rem;
+    color: white;
+    font-family: "Century Gothic";
+    border-radius: 5px  ;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.title {
+    padding: 1rem 0;
+}
+
+.instruction {
+    padding: 0 1rem;
+}
+
+.wrapperUsername {
+    margin-top: 1rem;
+}
+
+.usernameInput {
+    width: 100%;
+    padding: 0.5rem 0;
+}
+
+.usernameInput::placeholder {
+    padding: 0 0.2rem;
+    font-weight: bold;
+    color: rgba(23, 23, 23, 0.48);
+}
+
+.btn-play {
+    cursor: pointer;
+    margin-top: 1rem;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    background-color: red;
+    width: 100%;
+    padding: 0.5rem 0;
+}
+
+.btn-play:hover {
+    cursor: pointer;
+    background-color: #310000;
+    transition: 0.5s;
+}
+
+#map {
+    background-color: #383838;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
