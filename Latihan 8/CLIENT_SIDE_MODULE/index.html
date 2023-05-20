@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Game Piano Tiles</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="home">
+        <div class="homeContent">
+            <h3 class="titleHome">Game Instruction</h3>
+
+            <ol class="instruction">
+                <li>Set your username</li>
+                <li>Click button play</li>
+                <li>Inject virus with D F J K key</li>
+                <li>Enjoy your game</li>
+            </ol>
+
+            <input type="text" name="username" id="username">
+            <button id="play">Play</button>
+        </div>
+    </div>
+
+    <div id="game">
+        <div id="bubble"></div>
+        <div id="bubble2"></div>
+        <canvas id="map"></canvas>
+    </div>
+
+    <div id="modal">
+       <div class="content-modal">
+           <h5>Game Over</h5>
+           <div id="score"></div>
+           <div id="time"></div>
+
+           <button id="homeButton">Home</button>
+       </div>
+    </div>
+
+    <div id="modal2">
+        <div class="content-modal2">
+            <h5>Game Pause</h5>
+            <button id="resume">Resume</button>
+        </div>
+    </div>
+
+<script src="game.js"></script>
+</body>
+</html>

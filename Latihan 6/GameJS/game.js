@@ -9,7 +9,7 @@ window.addEventListener('load', function () {
     canvas.width = 500
     canvas.height = 960
 
-    var animationFrame;
+    var animationFrame = true;
 
     pause.onclick = function () {
         cancelAnimationFrame(animationFrame)
@@ -32,6 +32,7 @@ window.addEventListener('load', function () {
             localStorage.setItem('username', inputUsername.value)
             gameWrapper.style.display = 'block'
             home.style.display = 'none'
+            // animationFrame = setInterval(animate, 10)
             animate()
         }
     }
@@ -44,6 +45,7 @@ window.addEventListener('load', function () {
             this.image.src = 'assets/inject.png'
             this.image.style.rotate = '90deg'
             this.score = 0
+            this.fail = 0
         }
 
         draw (context) {
@@ -71,9 +73,15 @@ window.addEventListener('load', function () {
             context.fillStyle = 'green'
             context.fillRect(375    , this.game.height - 180, this.width, 180)
 
+            // wall
             context.beginPath()
+            context.lineWidth = 2
             context.fillStyle = 'gray'
-            context.fillRect(0, this.game.height - 190, this.game.width, 10)
+            context.strokeStyle = 'white'
+            context.rect(0, this.game.height - 190, this.game.width, 10)
+            context.fill()
+            context.stroke()
+            context.closePath()
 
             // Danger Zone
             context.beginPath()
@@ -85,6 +93,15 @@ window.addEventListener('load', function () {
             context.fillStyle = 'white'
             context.font = '14px Arial'
             context.fillText('Score : ' + this.score, 10, 20)
+
+            // Fail Count
+            context.beginPath()
+            context.fillStyle = 'white'
+            context.fillText('Fail : ' + this.fail, 10, 40)
+
+            context.beginPath()
+            context.fillStyle = 'white'
+            context.fillText()
 
             drawImage(this.image, 0, this.game.height-150, 125, 125)
             drawImage(this.image, 125, this.game.height-150, 125, 125)
@@ -187,8 +204,7 @@ window.addEventListener('load', function () {
                 if (this.yOne > this.game.height - 190){
                     this.yOne = -100
                     this.virusOne = false
-                    console.log(pause)
-                    pause.click()
+                    this.game.background.fail += 1
                 }
             }
             if (this.virusTwo){
@@ -196,7 +212,8 @@ window.addEventListener('load', function () {
                 if (this.yTwo >= this.game.height - 190){
                     this.yTwo = -100
                     this.virusTwo = false
-                    cancelAnimationFrame(animationFrame)
+                    this.game.background.fail += 1
+
                 }
             }
             if (this.virusThree){
@@ -204,7 +221,8 @@ window.addEventListener('load', function () {
                 if (this.yThree > this.game.height - 190){
                     this.yThree = -100
                     this.virusThree = false
-                    cancelAnimationFrame(animationFrame)
+                    this.game.background.fail += 1
+
                 }
             }
             if (this.virusFour){
@@ -212,8 +230,14 @@ window.addEventListener('load', function () {
                 if (this.yFour > this.game.height - 190){
                     this.yFour = -100
                     this.virusFour = false
-                    cancelAnimationFrame(animationFrame)
+                    this.game.background.fail += 1
+
                 }
+            }
+
+            if (this.game.background.fail >= 10){
+                animationFrame = false
+
             }
 
         }
@@ -257,18 +281,19 @@ window.addEventListener('load', function () {
         }
     }
 
-    const game = new Game(canvas.width, canvas.height)
 
     function drawImage(src, dx, dy, width, height)
     {
         ctx.drawImage(src, dx, dy, width, height)
     }
 
+    const game = new Game(canvas.width, canvas.height)
+
     function animate () {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         game.update()
         game.draw(ctx)
 
-        animationFrame = requestAnimationFrame(animate)
+        if(animationFrame) requestAnimationFrame(animate)
     }
 })
