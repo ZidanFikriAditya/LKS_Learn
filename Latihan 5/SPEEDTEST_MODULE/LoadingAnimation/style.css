@@ -1,0 +1,99 @@
+*, html {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+.middle {
+    display: flex;
+    animation-name: rotate, GapAnimation;
+    animation-duration:3s;
+    animation-iteration-count: infinite;
+
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    animation-name: GapAnimation;
+    animation-iteration-count: infinite;
+    animation-duration:3s;
+}
+
+.wrapper2 {
+    display: flex;
+    flex-direction: column;
+    animation-name: GapAnimation;
+    animation-iteration-count: infinite;
+    animation-duration:3s;
+}
+
+.ball1 {
+    background-color: #19A68C;
+    padding: 2rem;
+    border-radius: 50%;
+}
+.ball2 {
+    background-color: #F63D3A;
+    padding: 2rem;
+    border-radius: 50%;
+}
+.ball3 {
+    background-color: #FDA543;
+    padding: 2rem;
+    border-radius: 50%;
+}
+.ball4 {
+    background-color: #193B48;
+    padding: 2rem;
+    border-radius: 50%;
+}
+
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(90deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    75% {
+        transform: rotate(270deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+
+}
+
+@keyframes GapAnimation {
+    0%{
+        gap: 0;
+    }
+    25% {
+        gap: 1rem;
+    }
+    50% {
+        gap: 0;
+    }
+    75% {
+        gap: 1rem;
+    }
+    100% {
+        gap: 0;
+    }
+}

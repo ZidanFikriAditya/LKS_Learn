@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Game JS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="home">
+        <h3 class="title">Instruction virus slayer</h3>
+        <ol class="instruction">
+            <li>Input Username and click play</li>
+            <li>Destroy virus with D F J K key</li>
+            <li>Reach high score</li>
+            <li>Enjoy!</li>
+        </ol>
+
+        <div class="wrapperUsername">
+            <input type="text" class="usernameInput" id="username" placeholder="Username here">
+        </div>
+
+        <button class="btn-play" id="buttonPlay">
+            Play
+        </button>
+    </div>
+
+    <div id="game">
+        <div class="bubble"></div>
+        <div class="bubble2"></div>
+
+        <button id="pause">Pause</button>
+
+        <canvas id="map"></canvas>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
