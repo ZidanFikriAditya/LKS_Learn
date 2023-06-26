@@ -49,71 +49,83 @@ window.addEventListener('load', function () {
 
         update() {
             this.timeSpawn += this.speedTime
-            this.y += this.speedY
-            this.y2 += this.speedY
-            this.y3 += this.speedY
-            this.y4 += this.speedY
 
-
-            if (this.condition1 && this.y === -150) {
-                console.log("y " + this.y);
-                if (this.y >= this.game.height - 200) {
-                    this.y = -150
-                }
-            } else if(this.condition2  && this.y2 === -150) {
-                console.log("y2 " + this.y2);
-                if (this.y2 >= this.game.height - 200) {
-                    this.y2 = -150
-                }
-            } else if(this.condition3 && this.y3 === -150) {
-                console.log("y3 " + this.y3);
-
-                if (this.y3 >= this.game.height - 200) {
-                    this.y3 = -150
-                }
-            } else if(this.condition4 && this.y4 === -150) {
-                console.log("y4 " + this.y4);
-                if (this.y4 >= this.game.height - 200) {
-                    this.y4 = -150
-                }
-            }
+            if (this.y2)
 
 
             if (this.timeSpawn >= this.timeSpawnMax) {
                 this.timeSpawn = 0
                 this.randSpawn = Math.floor(Math.random() * 450)
 
-                if (this.randSpawn >= 0 && this.randSpawn < 150) {
-                    this.condition1 = true   
+                if ((this.randSpawn >= 0 && this.randSpawn < 150) && this.y === -150) {
+                    this.condition1 = true
                 }            
-                else if (this.randSpawn >= 150 && this.randSpawn < 300) {
+                else if ((this.randSpawn >= 150 && this.randSpawn < 300) && this.y2 === -150) {
                     this.condition2 = true
                 }            
-                else if (this.randSpawn >= 300 && this.randSpawn < 450) {
+                else if ((this.randSpawn >= 300 && this.randSpawn < 450) && this.y3 === -150) {
                     this.condition3 = true
                 }            
-                else {
+                else if (this.randSpawn >= 450 && this.y4 === -150 ) {
                     this.condition4 = true
                 } 
+            }
+
+
+            if (this.condition1 ) {
+                this.y += this.speedY
+
+                if (this.y >= this.game.height - 200) {
+                    this.y = -150
+                    this.condition1 = false
+                }
+            }
+            if(this.condition2) {
+                this.y2 += this.speedY
+
+                if (this.y2 >= this.game.height - 200) {
+                    this.y2 = -150
+                    this.condition2 = false
+                }
+            }
+            if(this.condition3) {
+                this.y3 += this.speedY
+
+                if (this.y3 >= this.game.height - 200) {
+                    this.condition3 = false
+                    this.y3 = -150
+                }
+            }
+            if (this.condition4){
+                this.y4 += this.speedY
+
+                if (this.y4 >= this.game.height - 200) {
+                    this.condition4 = false
+                    this.y4 = -150
+                }
             }
 
             
         }
 
         draw (context) {
-            if (this.randSpawn >= 0 && this.randSpawn < 150) {
+            if (this.condition1) {
+                context.beginPath()
                 context.fillStyle = 'pink'
-                context.fillRect(this.x, this.y, this.width, this.height)           
+                context.fillRect(this.x, this.y, this.width, this.height)
             }            
-            else if (this.randSpawn >= 150 && this.randSpawn < 300) {
+            if (this.condition2) {
+                context.beginPath()
                 context.fillStyle = 'pink'
                 context.fillRect(this.x2, this.y2, this.width, this.height)
             }            
-            else if (this.randSpawn >= 300 && this.randSpawn < 450) {
+            if (this.condition3) {
+                context.beginPath()
                 context.fillStyle = 'pink'
                 context.fillRect(this.x3, this.y3, this.width, this.height)
             }            
-            else {
+            if(this.condition4) {
+                context.beginPath()
                 context.fillStyle = 'pink'
                 context.fillRect(this.x4, this.y4, this.width, this.height)
             }   
